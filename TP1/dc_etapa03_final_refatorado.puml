@@ -1,0 +1,141 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+' ====== Interfaces e Itens ======
+interface Item {
+    + getTitle(): String
+    + getId(): String
+}
+
+class Book implements Item {
+    - title : String
+    - author : String
+    - isbn : String
+    + getTitle(): String
+    + getId(): String
+}
+
+class DVD implements Item {
+    - title : String
+    - director : String
+    - idCode : String
+    + getTitle(): String
+    + getId(): String
+}
+
+' ====== Factory Method ======
+abstract class ItemFactory {
+    + createItem(type: String, data: Map): Item
+}
+
+class ConcreteItemFactory extends ItemFactory {
+    + createItem(type: String, data: Map): Item
+}
+
+ItemFactory <|-- ConcreteItemFactory
+Book ..|> Item
+DVD ..|> Item
+
+
+' ====== Strategy para Busca ======
+interface SearchStrategy {
+    + search(criteria: String): List<Item>
+}
+
+class TitleSearchStrategy implements SearchStrategy {
+    + search(criteria: String): List<Item>
+}
+
+class AuthorSearchStrategy implements SearchStrategy {
+    + search(criteria: String): List<Item>
+}
+
+' ====== Observer para Empréstimos ======
+interface Observer {
+    + update(event: String, data: Object)
+}
+
+interface Subject {
+    + addObserver(obs: Observer)
+    + removeObserver(obs: Observer)
+    + notifyObservers(event: String, data: Object)
+}
+
+class LoanManager implements Subject {
+    - loans : List<Loan>
+    - observers : List<Observer>
+    + loanItem(item: Item, user: User)
+    + returnItem(item: Item, user: User)
+    + getOverdueLoans(): List<Loan>
+    + addObserver(obs: Observer)
+    + removeObserver(obs: Observer)
+    + notifyObservers(event: String, data: Object)
+}
+
+class Loan {
+    - item : Item
+    - user : User
+    - dueDate : Date
+    + isOverdue(): Boolean
+}
+
+LoanManager --> Loan
+Loan --> Item
+Loan --> User
+
+' ====== User e Managers ======
+class User {
+    - name : String
+    - id : String
+    + getName(): String
+    + getId(): String
+}
+
+class BookManager {
+    - books : List<Item>
+    - searchStrategy : SearchStrategy
+    + setSearchStrategy(strategy: SearchStrategy)
+    + search(criteria: String): List<Item>
+}
+
+class UserManager {
+    - users : List<User>
+    + addUser(user: User)
+    + removeUser(id: String)
+    + updateUser(user: User)
+}
+
+BookManager --> Item
+UserManager --> User
+BookManager --> SearchStrategy
+
+' ====== Facade e Singleton ======
+class LibraryFacade {
+    + addBook(data: Map)
+    + removeBook(id: String)
+    + searchBooks(criteria: String): List<Item>
+    + registerUser(user: User)
+    + loanItem(itemId: String, userId: String)
+    + returnItem(itemId: String, userId: String)
+}
+
+class Library {
+    - static instance : Library
+    - bookManager : BookManager
+    - userManager : UserManager
+    - loanManager : LoanManager
+    - itemFactory : ItemFactory
+    + getInstance(): Library
+    + getBookManager(): BookManager
+    + getUserManager(): UserManager
+    + getLoanManager(): LoanManager
+    + getItemFactory(): ItemFactory
+}
+
+LibraryFacade --> Library
+Library --> BookManager
+Library --> UserManager
+Library --> LoanManager
+Library --> ItemFactory
+
+@enduml

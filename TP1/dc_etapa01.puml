@@ -1,0 +1,90 @@
+@startuml Etapa01 - Desacoplamento e Separação de Responsabilidades
+skinparam classAttributeIconSize 0
+
+' ====== Interface para Itens ======
+interface Item {
+    + getTitle(): String
+    + getId(): String
+}
+
+class Book implements Item {
+    - title : String
+    - author : String
+    - isbn : String
+    + getTitle(): String
+    + getId(): String
+}
+
+class DVD implements Item {
+    - title : String
+    - director : String
+    - idCode : String
+    + getTitle(): String
+    + getId(): String
+}
+
+Book ..|> Item
+DVD ..|> Item
+
+' ====== Usuários ======
+class User {
+    - name : String
+    - id : String
+    + getName(): String
+    + getId(): String
+}
+
+' ====== Empréstimos ======
+class Loan {
+    - item : Item
+    - user : User
+    - dueDate : Date
+    + isOverdue(): Boolean
+}
+
+Loan --> Item
+Loan --> User
+
+' ====== Managers ======
+class BookManager {
+    - items : List<Item>
+    + addItem(item: Item)
+    + removeItem(id: String)
+    + findByTitle(title: String): List<Item>
+    + findById(id: String): Item
+}
+
+class UserManager {
+    - users : List<User>
+    + addUser(user: User)
+    + removeUser(id: String)
+    + updateUser(user: User)
+    + findUserById(id: String): User
+}
+
+class LoanManager {
+    - loans : List<Loan>
+    + loanItem(item: Item, user: User)
+    + returnItem(item: Item, user: User)
+    + getOverdueLoans(): List<Loan>
+}
+
+BookManager --> Item
+UserManager --> User
+LoanManager --> Loan
+
+' ====== Biblioteca ======
+class Library {
+    - bookManager : BookManager
+    - userManager : UserManager
+    - loanManager : LoanManager
+    + getBookManager(): BookManager
+    + getUserManager(): UserManager
+    + getLoanManager(): LoanManager
+}
+
+Library --> BookManager
+Library --> UserManager
+Library --> LoanManager
+
+@enduml

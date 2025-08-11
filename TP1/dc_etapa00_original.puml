@@ -1,0 +1,40 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class Library {
+   - books : List<Book>
+   - users : List<User>
+   - loans : List<UserLoan>
+   + addBook(book: Book)
+   + removeBook(book: Book)
+   + findBook(title: String): Book
+   + addUser(user: User)
+   + removeUser(user: User)
+   + loanBook(book: Book, user: User)
+   + returnBook(book: Book, user: User)
+   + falar() : void   
+}
+
+class Book {
+   - title : String
+   - author : String
+   - isbn : String  
+}
+
+class User {  
+   - name : String
+   - id : String  
+}
+
+class Loan {
+   - book : Book
+   - user : User
+   - dueDate : Date  
+   + isOverdue(): Boolean
+}
+
+Library "1" --> "*" Book
+Library "1" --> "*" User
+Library "1" --> "*" Loan
+
+@enduml
