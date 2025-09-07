@@ -1,0 +1,22 @@
+digraph ContextMap {
+    rankdir=LR;
+    node [shape=box, style=rounded, fontsize=12, fontname="Arial"];
+
+   // Todos os Bounded Context
+    CFMV [label="Conselho de Medicina\nVeterinária (CFMV)"];
+    Veterinarios [label="Gestão de Veterinários"];
+    Clientes [label="Gestão de Clientes"];
+    Farmacia [label="Farmácia / Medicamentos"];
+    Agendamento [label="Agendamento\n(consultas, passeios, serviços)"];
+    Servicos [label="Serviços Banho/Tosa ou Passeios"];
+    Credenciamento [label="Credenciamento Passeadores"];
+
+    // Relações Fornecedor → Cliente
+    // As setas sempre partem do fornecedor dos dados para o cliente que vai utilziar esses dados
+    CFMV -> Veterinarios [label="valida dados"];
+    Veterinarios -> Agendamento [label="disponibilidade"];
+    Veterinarios -> Farmacia [label="prescrição"];
+    Clientes -> Agendamento [label="dados do cliente"];
+    Agendamento -> Servicos [label="slots reservados"];
+    Agendamento -> Credenciamento [label="slots reservados"];
+}
