@@ -1,0 +1,56 @@
+
+ContextMap PetFriends {
+    contains AgendamentoContext
+    contains ServicosContext
+    contains VeterinariosContext
+    contains ConselhoFederalVeterinariaContext
+
+    ServicosContext [D] <- [U, OHS] AgendamentoContext {
+        implementationTechnology = "RESTful HTTP"
+    }
+
+    VeterinariosContext [D] <- [U, OHS] AgendamentoContext {
+        implementationTechnology = "RESTful HTTP"
+    }
+
+    VeterinariosContext [D, ACL] <- [U] ConselhoFederalVeterinariaContext {
+        implementationTechnology = "RESTful HTTP"
+    }
+}
+
+BoundedContext AgendamentoContext {
+    domainVisionStatement "Fornece as funcionalidades de agendamento para todos os contextos da empresa."
+}
+
+BoundedContext ServicosContext {
+    domainVisionStatement "Fornece as funcionalidades de Banho, Tosa e Passeio."
+}
+
+BoundedContext VeterinariosContext  {
+    domainVisionStatement "Fornece as funcionalidades consulta médica."
+
+    Aggregate MedicoVeterinario {
+
+        Entity MedicoVeterinario {
+            aggregateRoot
+
+            - MedicoVeterinarioId id
+            - CRM crm
+            String nome 
+        }
+
+        ValueObject MedicoVeterinarioId {
+			int medicoVeterinarioId key
+		}
+
+        ValueObject CRM {
+			String conselho
+            String numero
+            String uf
+		}
+    }
+}
+
+BoundedContext ConselhoFederalVeterinariaContext{
+    domainVisionStatement "Fornece as funcionalidades de gerenciamento dos cadastros de médicos veterinários."
+}

@@ -1,0 +1,17 @@
+digraph "ContextMapGraph" {
+graph ["imagepath"="/tmp/GraphvizJava"]
+"AgendamentoServicos" ["margin"="0.3","orientation"="22","shape"="egg","fontsize"="16","style"="bold","label"="AgendamentoServicos\n","fontname"="sans-serif"]
+"BanhoTosa" ["margin"="0.3","orientation"="250","shape"="egg","fontsize"="16","style"="bold","label"="BanhoTosa\n","fontname"="sans-serif"]
+"CFMV" ["margin"="0.3","orientation"="151","shape"="egg","fontsize"="16","style"="bold","label"="CFMV\n","fontname"="sans-serif"]
+"ECommerce" ["margin"="0.3","orientation"="139","shape"="egg","fontsize"="16","style"="bold","label"="ECommerce\n","fontname"="sans-serif"]
+"GestaoAssinaturas" ["margin"="0.3","orientation"="336","shape"="egg","fontsize"="16","style"="bold","label"="GestaoAssinaturas\n","fontname"="sans-serif"]
+"GestaoEntregas" ["margin"="0.3","orientation"="27","shape"="egg","fontsize"="16","style"="bold","label"="GestaoEntregas\n","fontname"="sans-serif"]
+"GestaoLojas" ["margin"="0.3","orientation"="149","shape"="egg","fontsize"="16","style"="bold","label"="GestaoLojas\n","fontname"="sans-serif"]
+"GestaoPasseadores" ["margin"="0.3","orientation"="90","shape"="egg","fontsize"="16","style"="bold","label"="GestaoPasseadores\n","fontname"="sans-serif"]
+"GestaoVeterinarios" ["margin"="0.3","orientation"="308","shape"="egg","fontsize"="16","style"="bold","label"="GestaoVeterinarios\n","fontname"="sans-serif"]
+"GestaoVeterinarios" -> "AgendamentoServicos" ["headlabel"=<<table cellspacing="0" cellborder="0" border="0">
+<tr><td bgcolor="white">D</td></tr>
+</table>>,"labeldistance"="0","fontsize"="12","taillabel"=<<table cellspacing="0" cellborder="0" border="0">
+<tr><td bgcolor="white">U</td></tr>
+</table>>,"style"="bold","label"="                                        ","dir"="none","fontname"="sans-serif"]
+}

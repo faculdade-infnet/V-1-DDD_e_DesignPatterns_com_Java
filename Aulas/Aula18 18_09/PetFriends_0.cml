@@ -1,0 +1,67 @@
+ContextMap PetFriendsContextMap {
+    contains GestaoVeterinarios
+    contains AgendamentoServicos
+    contains GestaoLojas
+    contains ECommerce
+    contains GestaoEntregas
+    contains GestaoAssinaturas
+    contains GestaoPasseadores
+    contains BanhoTosa
+    contains CFMV
+
+    GestaoVeterinarios -> AgendamentoServicos : Fornecedor-Cliente
+    GestaoVeterinarios -> GestaoLojas : Fornecedor-Cliente
+    GestaoVeterinarios -> ECommerce : Conformista
+    GestaoVeterinarios -> CFMV : AnticorruptionLayer
+
+    AgendamentoServicos -> GestaoPasseadores : Fornecedor-Cliente
+    AgendamentoServicos -> BanhoTosa : Fornecedor-Cliente
+
+    ECommerce -> GestaoEntregas : Fornecedor-Cliente
+    ECommerce -> GestaoLojas : Fornecedor-Cliente
+}
+
+BoundedContext GestaoVeterinarios {
+    -type = CORE_DOMAIN
+    responsibilities = "Cadastro de veterin�rios, agenda, especialidades, integra��o com CFMV"
+}
+
+BoundedContext AgendamentoServicos {
+    type = SUPPORTING_DOMAIN
+    responsibilities = "Gest�o de slots de agenda para veterin�rios, passeadores e banho/tosa"
+}
+
+BoundedContext GestaoLojas {
+    type = GENERIC_SUBDOMAIN
+    responsibilities = "Cadastro de lojas, CEPs atendidos, associa��o de clientes �s regi�es"
+}
+
+BoundedContext ECommerce {
+    type = SUPPORTING_DOMAIN
+    responsibilities = "Cat�logo de produtos, carrinho de compras, pagamento"
+}
+
+BoundedContext GestaoEntregas {
+    type = GENERIC_SUBDOMAIN
+    responsibilities = "Gest�o de log�stica, entregas e retiradas"
+}
+
+BoundedContext GestaoAssinaturas {
+    type = SUPPORTING_DOMAIN
+    responsibilities = "Gest�o de assinaturas recorrentes de ra��o e servi�os"
+}
+
+BoundedContext GestaoPasseadores {
+    type = SUPPORTING_DOMAIN
+    responsibilities = "Cadastro e disponibilidade de passeadores, avalia��es de clientes"
+}
+
+BoundedContext BanhoTosa {
+    type = SUPPORTING_DOMAIN
+    responsibilities = "Agendamento e execu��o de pacotes ou servi�os avulsos de banho e tosa"
+}
+
+BoundedContext CFMV {
+    type = GENERIC_SUBDOMAIN
+    responsibilities = "Valida��o de cadastro profissional junto ao Conselho Federal de Medicina Veterin�ria"
+}

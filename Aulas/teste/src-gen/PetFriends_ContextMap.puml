@@ -1,0 +1,41 @@
+@startuml
+
+skinparam componentStyle uml2
+
+component [AgendamentoContext]
+note right of [AgendamentoContext]
+Fornece as funcionalidades de 
+agendamento para  todos os contextos 
+da empresa 
+end note
+component [ServicoContext]
+note right of [ServicoContext]
+Fornece as funcionalidades de 
+Banho, Tosa e Passio 
+end note
+component [VeterinariosContext]
+note right of [VeterinariosContext]
+Fornece as funcionalidades consulta 
+médica. 
+end note
+component [ConselhoFederalMedVetContext]
+note right of [ConselhoFederalMedVetContext]
+API com o cadastro dos médicos 
+veterinários 
+end note
+
+interface "Upstream-Downstream" as ServicoContext_to_AgendamentoContext
+[AgendamentoContext] --> ServicoContext_to_AgendamentoContext : OPEN_HOST_SERVICE, PUBLISHED_LANGUAGE
+ServicoContext_to_AgendamentoContext <.. [ServicoContext] : consume
+
+interface "Upstream-Downstream" as VeterinariosContext_to_AgendamentoContext
+[AgendamentoContext] --> VeterinariosContext_to_AgendamentoContext : OPEN_HOST_SERVICE, PUBLISHED_LANGUAGE
+VeterinariosContext_to_AgendamentoContext <.. [VeterinariosContext] : consume
+
+interface "Upstream-Downstream" as VeterinariosContext_to_ConselhoFederalMedVetContext
+[ConselhoFederalMedVetContext] --> VeterinariosContext_to_ConselhoFederalMedVetContext
+VeterinariosContext_to_ConselhoFederalMedVetContext <.. [VeterinariosContext] : use via ANTICORRUPTION_LAYER
+
+
+
+@enduml

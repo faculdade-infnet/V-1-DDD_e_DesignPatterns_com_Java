@@ -1,0 +1,64 @@
+
+
+BoundedContext AgendamentoContext{
+   // type = CORE_DOMAIN
+   domainVisionStatement "Fornece as funcionalidades de agendamento para  todos os contextos da empresa"
+   implementationTechnology = "RestFul HTTP"
+}
+
+BoundedContext ServicoContext{
+   // type = CORE_DOMAIN
+   domainVisionStatement "Fornece as funcionalidades de Banho, Tosa e Passio"
+}
+
+BoundedContext VeterinariosContext  {
+   domainVisionStatement "Fornece as funcionalidades consulta médica."
+   // Aggregate → é um agrupamento lógico de entidades e objetos de valor, que têm consistência transacional entre si.
+   // O aggregate root (raiz do agregado) é quem controla o acesso às demais entidades dentro do agregado.
+   Aggregate MedicoVeterinario {
+      // É a entidade principal do agregado.
+      // O marcador aggregateRoot indica que todas as operações externas passam por essa entidade.
+      // Atributos:
+      // MedicoVeterinarioId id → identificador único (não é só um int, mas um Value Object).
+      // CRM crm → outro Value Object, garantindo que os dados do CRM sejam modelados corretamente.
+      // String nome → nome do médico.
+      Entity MedicoVeterinario {
+         aggregateRoot
+         - MedicoVeterinarioId id
+         - CRM crm
+         String nome
+      }
+      ValueObject MedicoVeterinarioId {
+         int medicoVeterinarioId key
+      }
+      ValueObject CRM {
+         String conselho
+         String numero
+         String uf
+      }
+   }
+}
+
+BoundedContext ConselhoFederalMedVetContext{
+   // type = CORE_DOMAIN
+   domainVisionStatement "API com o cadastro dos médicos veterinários"
+   implementationTechnology = "SOAP"
+}
+
+ContextMap PetFriends{
+   contains AgendamentoContext
+   contains ServicoContext
+   contains VeterinariosContext
+   contains ConselhoFederalMedVetContext
+
+   // U = Upstream
+   // OHS = Open host Service
+   // PL = PAYLOAD (linguagem publicada)
+   // D = Downstream
+   AgendamentoContext [U, OHS, PL] -> [D] ServicoContext
+
+   AgendamentoContext [U, OHS, PL] -> [D] VeterinariosContext
+
+   VeterinariosContext [D, ACL] <- [U] ConselhoFederalMedVetContext
+}
+
