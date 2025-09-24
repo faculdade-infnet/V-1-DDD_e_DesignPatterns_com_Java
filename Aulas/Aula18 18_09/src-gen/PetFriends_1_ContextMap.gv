@@ -1,7 +1,0 @@
-digraph "ContextMapGraph" {
-graph ["imagepath"="/tmp/GraphvizJava"]
-"AgendamentoContext" ["margin"="0.3","orientation"="16","shape"="egg","fontsize"="16","style"="bold","label"="AgendamentoContext\n","fontname"="sans-serif"]
-"ConselhoFederalVeterinariaContext" ["margin"="0.3","orientation"="226","shape"="egg","fontsize"="16","style"="bold","label"="ConselhoFederalVeterinariaContext\n","fontname"="sans-serif"]
-"ServicosContext" ["margin"="0.3","orientation"="181","shape"="egg","fontsize"="16","style"="bold","label"="ServicosContext\n","fontname"="sans-serif"]
-"VeterinariosContext" ["margin"="0.3","orientation"="72","shape"="egg","fontsize"="16","style"="bold","label"="VeterinariosContext\n","fontname"="sans-serif"]
-}

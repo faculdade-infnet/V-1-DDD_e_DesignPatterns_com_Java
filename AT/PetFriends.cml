@@ -1,0 +1,116 @@
+
+
+BoundedContext AgendamentoContext {
+   // type = CORE_DOMAIN
+   domainVisionStatement "Fornece as funcionalidades de agendamento de consultas e serviços para todos os contextos da empresa"
+   implementationTechnology = "RESTful HTTP"
+}
+
+BoundedContext ServicoContext {
+   // type = SUPPORTING_DOMAIN
+   domainVisionStatement "Fornece as funcionalidades de Banho, Tosa e Passeio"
+}
+
+BoundedContext VeterinariosContext {
+   // type = CORE_DOMAIN
+   domainVisionStatement "Fornece as funcionalidades de consulta médica e gestão dos médicos veterinários"
+   implementationTechnology = "RESTful HTTP"
+   Aggregate MedicoVeterinario {
+      Entity MedicoVeterinario {
+         aggregateRoot
+         - MedicoVeterinarioId id
+         - CRM crm
+         String nome
+      }
+      ValueObject MedicoVeterinarioId {
+         int medicoVeterinarioId key
+      }
+      ValueObject CRM {
+         String conselho
+         String numero
+         String uf
+      }
+   }
+}
+
+BoundedContext ConselhoFederalMedVetContext {
+   // type = GENERIC_SUBDOMAIN
+   domainVisionStatement "API oficial com o cadastro dos médicos veterinários (integração regulatória)"
+   implementationTechnology = "SOAP"
+}
+
+BoundedContext ClientesContext {
+   // type = SUPPORTING_DOMAIN
+   domainVisionStatement "Gerencia os dados dos clientes e de seus pets"
+}
+
+BoundedContext LojasContext {
+   // type = SUPPORTING_DOMAIN
+   domainVisionStatement "Gerencia as lojas físicas, estoques e distâncias"
+}
+
+BoundedContext EcommerceContext {
+   // type = CORE_DOMAIN
+   domainVisionStatement "Vendas de produtos (e-commerce), integrando estoque e entregas"
+}
+
+BoundedContext AssinaturasContext {
+   // type = CORE_DOMAIN
+   domainVisionStatement "Modelo inovador de assinaturas de rações e produtos recorrentes"
+}
+
+BoundedContext FarmaciaContext {
+   // type = CORE_DOMAIN
+   domainVisionStatement "Venda e entrega de medicamentos veterinários com base em prescrições"
+}
+
+BoundedContext PagamentosContext {
+   // type = GENERIC_SUBDOMAIN
+   domainVisionStatement "Gerencia pagamentos de forma integrada (cartão, pix, boleto)"
+   implementationTechnology = "Externo (ex.: Stripe, PayPal, Pagar.me)"
+}
+
+BoundedContext PasseadoresContext {
+   // type = SUPPORTING_DOMAIN
+   domainVisionStatement "Gerencia o credenciamento de passeadores"
+}
+
+ContextMap PetFriends {
+   contains AgendamentoContext
+   contains ServicoContext
+   contains VeterinariosContext
+   contains ConselhoFederalMedVetContext
+   contains ClientesContext
+   contains LojasContext
+   contains EcommerceContext
+   contains AssinaturasContext
+   contains FarmaciaContext
+   contains PagamentosContext
+   contains PasseadoresContext
+
+   // RELACIONAMENTOS
+   AgendamentoContext [U, OHS, PL] -> [D] ServicoContext
+
+   AgendamentoContext [U, OHS, PL] -> [D] VeterinariosContext
+
+   AgendamentoContext [U, OHS, PL] -> [D] ClientesContext
+
+   VeterinariosContext [D, ACL] <- [U] ConselhoFederalMedVetContext
+
+   EcommerceContext [U, OHS, PL] -> [D] LojasContext
+
+   AssinaturasContext [U, OHS, PL] -> [D] EcommerceContext
+
+   FarmaciaContext [U, OHS, PL] -> [D] LojasContext
+
+   FarmaciaContext [U, OHS, PL] -> [D] VeterinariosContext
+
+   EcommerceContext [D, ACL] <- [U] PagamentosContext
+
+   AssinaturasContext [D, ACL] <- [U] PagamentosContext
+
+   FarmaciaContext [D, ACL] <- [U] PagamentosContext
+
+   ServicoContext [U, OHS, PL] -> [D] PasseadoresContext
+}
+

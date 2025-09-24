@@ -1,0 +1,108 @@
+@startuml "Agregados"
+' ===============================
+' Agregados do AgendamentoContext - Versão Visual
+' ===============================
+
+skinparam class {
+    BackgroundColor<<Agendamento>> LightBlue
+    BackgroundColor<<Disponibilidade>> LightGreen
+    BackgroundColor<<RecursoAgendavel>> LightYellow
+    BorderColor Black
+    ArrowColor Black
+}
+
+' -------------------------------
+' Agregado Agendamento
+' -------------------------------
+package "Agendamento" <<Agendamento>> {
+    class Agendamento {
+        - agendamentoId: AgendamentoId
+        - clienteId: ClienteId
+        - petId: PetId
+        - servicoId: ServicoId
+        - medicoVeterinarioId: MedicoVeterinarioId
+        - horario: Horario
+        - status: StatusAgendamento
+    }
+
+    class AgendamentoId {
+        String id
+    }
+
+    class Horario {
+        Date data
+        Time hora
+    }
+
+    class StatusAgendamento {
+        String valor
+    }
+}
+
+' -------------------------------
+' Agregado Disponibilidade
+' -------------------------------
+package "Disponibilidade" <<Disponibilidade>> {
+    class Disponibilidade {
+        - disponibilidadeId: DisponibilidadeId
+        - recursoId: RecursoAgendavelId
+        - intervaloHorario: IntervaloHorario
+        - status: StatusDisponibilidade
+    }
+
+    class DisponibilidadeId {
+        String id
+    }
+
+    class IntervaloHorario {
+        Date inicio
+        Date fim
+    }
+
+    class StatusDisponibilidade {
+        String valor
+    }
+}
+
+' -------------------------------
+' Agregado RecursoAgendavel
+' -------------------------------
+package "RecursoAgendavel" <<RecursoAgendavel>> {
+    class RecursoAgendavel {
+        - recursoId: RecursoAgendavelId
+        - tipo: TipoRecurso
+        - capacidade: int
+        - status: StatusRecurso
+    }
+
+    class RecursoAgendavelId {
+        String id
+    }
+
+    class StatusRecurso {
+        String valor
+    }
+
+    class TipoRecurso {
+        String valor
+    }
+}
+
+' ===============================
+' Relacionamentos entre agregados
+' ===============================
+Agendamento --> Disponibilidade : reserva
+Disponibilidade --> RecursoAgendavel : verifica
+
+' Relacionamentos internos dos agregados
+Agendamento --> AgendamentoId
+Agendamento --> Horario
+Agendamento --> StatusAgendamento
+Disponibilidade --> DisponibilidadeId
+Disponibilidade --> IntervaloHorario
+Disponibilidade --> StatusDisponibilidade
+RecursoAgendavel --> RecursoAgendavelId
+RecursoAgendavel --> TipoRecurso
+RecursoAgendavel --> StatusRecurso
+
+@enduml
